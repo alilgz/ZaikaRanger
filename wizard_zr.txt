@@ -1,0 +1,247 @@
+//F: HaveUltSkill = effectTime(target(me),$CelestialProtection) == 0 \
+                or effectTime(target(me),$CelestialPartyProtection) == 0 \
+                or effectTime(target(me),$CelestialAegis) == 0 \
+                or effectTime(target(me),$UndyingWill) == 0 \
+                or effectTime(target(me),$GiantBarrier) == 0 \
+                or effectTime(target(me),$GiantsFavor) == 0 \
+                or effectTime(target(me),$CrystalRegeneration) == 0 \
+                or effectTime(target(me),$SummonBarrier) == 0 \
+                or effectTime(target(me),$FinalUltimateEscape) == 0 \
+                or effectTime(target(me),$NobleSacrifice) == 0 \
+                or effectTime(target(me),$IgnoreDeath) == 0 \
+                or effectTime(target(me),$FinalUltimateDefense) == 0 \
+                or effectTime(target(me),$ProtectionOfFaith) == 0 \
+
+//F: isMBEyed = enemiesInRange(1100, 0) > 5 and angle(target(me), me) >= 0 and effectTime(target(me),$MassBullseye) ~=0 or skillCoolTime(me,$MassBullseye) ~= 0 \
+                                            or effectTime(target(me),$BrilliantPurge) ~= 0 \
+                                           
+
+
+F: isBEyed = effectTime(target(me),11047) ~=0 or skillCoolTime(me,11047) ~= 0 \
+                                             or effectTime(target(me),$AngelsTouch) ~= 0 \
+                                             or effectTime(target(me),$MysticImmunity) ~= 0 \
+                                             or effectTime(target(me),$BrilliantPurge) ~= 0 \
+                                             or effectTime(target(me),$UndyingWill) ~= 0 \
+                                             or effectTime(target(me),$CelestialProtection) ~= 0 \
+                                             or effectTime(target(me),$CelestialPartyProtection) ~= 0 \
+                                             or effectTime(target(me),$CelestialAegis) ~= 0 \
+                                             or effectTime(target(me),$GiantBarrier) ~= 0 \
+                                             or effectTime(target(me),$PowerOfPaagrio) ~= 0 \
+                                             or effectTime(target(me),$EinhasadsProtection) ~= 0 \
+                                             or effectTime(target(me),$HeroicBerserker) ~= 0 \
+                                             or effectTime(target(me),$CrystalForm) ~= 0 \
+                                             or effectTime(target(me),$Unbind) ~= 0 \
+                                             or effectTime(target(me),$SacrificialSoul) ~= 0 \
+                                             or effectTime(target(me),$CrystalRegeneration) ~= 0 \
+
+F: isGLyed = effectTime(target(me),1263) ~=0 or skillCoolTime(me,1263) ~= 0 \
+                                             or effectTime(target(me),$AngelsTouch) ~= 0 \
+                                             or effectTime(target(me),$MysticImmunity) ~= 0 \
+                                             or effectTime(target(me),$BrilliantPurge) ~= 0 \
+                                             or effectTime(target(me),$UndyingWill) ~= 0 \
+                                             or effectTime(target(me),$CelestialProtection) ~= 0 \
+                                             or effectTime(target(me),$CelestialPartyProtection) ~= 0 \
+                                             or effectTime(target(me),$CelestialAegis) ~= 0 \
+                                             or effectTime(target(me),$GiantBarrier) ~= 0 \
+                                             or effectTime(target(me),$PowerOfPaagrio) ~= 0 \
+                                             or effectTime(target(me),$EinhasadsProtection) ~= 0 \
+                                             or effectTime(target(me),$HeroicBerserker) ~= 0 \
+                                             or effectTime(target(me),$CrystalForm) ~= 0 \
+                                             or effectTime(target(me),$Unbind) ~= 0 \
+                                             or effectTime(target(me),$SacrificialSoul) ~= 0 \
+                                             or effectTime(target(me),$CrystalRegeneration) ~= 0 \
+
+F: isMBEyed = effectTime(target(me),$MassDevilsCurse) ~=0 or skillCoolTime(me,$MassDevilsCurse) ~= 0 \
+                                             or effectTime(target(me),$AngelsTouch) ~= 0 \
+                                             or effectTime(target(me),$MysticImmunity) ~= 0 \
+                                             or effectTime(target(me),$BrilliantPurge) ~= 0 \
+                                             or effectTime(target(me),$UndyingWill) ~= 0 \
+                                             or effectTime(target(me),$CelestialProtection) ~= 0 \
+                                             or effectTime(target(me),$CelestialPartyProtection) ~= 0 \
+                                             or effectTime(target(me),$CelestialAegis) ~= 0 \
+                                             or effectTime(target(me),$GiantBarrier) ~= 0 \
+                                             or effectTime(target(me),$PowerOfPaagrio) ~= 0 \
+                                             or effectTime(target(me),$HeroicBerserker) ~= 0 \
+                                             or effectTime(target(me),$CrystalForm) ~= 0 \
+                                             or effectTime(target(me),$Unbind) ~= 0 \
+                                             or effectTime(target(me),$CrystalRegeneration) ~= 0 \
+
+
+F: isPSR = skillCoolTime($ElementalDestruction) ~= 0
+
+//F: isShoked = effectTime(target(me),ImpactShot) ~= 0 \
+                                            or effectTime(target(me),ShieldWave) ~= 0 \
+                                            or effectTime(target(me),ShieldImpact) ~= 0 \
+                                            or effectTime(target(me),AssaultRush) ~= 0 \
+                                            or effectTime(target(me),ShadowChase) ~= 0 \
+                                            or effectTime(target(me),Uppercut) ~= 0 \
+                                            or effectTime(target(me),Kick) ~= 0 \
+                                            or effectTime(target(me),PowerBluff) ~= 0 \
+                                            or effectTime(target(me),PhantomStun) ~= 0 \
+                                            or effectTime(target(me),InfinityRush) ~= 0 \
+                                            or effectTime(target(me),PowerBomber) ~= 0 \
+                                            or effectTime(target(me),Eruption) ~= 0 \
+                                            or effectTime(target(me),HuricaneRush) ~= 0 \
+
+//F: NeedInterrupt = (target(me)~= me or not isFriend(target(me)) or not isMember(target(me))) \
+                                            and nowCasting(target(me)) == $CelestialProtection \
+                                            or nowCasting(target(me)) == $CelestialPartyProtection \
+                                            or nowCasting(target(me)) == $PartyReturn \
+                                            or nowCasting(target(me)) == $Return \
+                                            or nowCasting(target(me)) == $GiantsFavor \
+                                            or nowCasting(target(me)) == $BlessedResurrection \
+                                            or nowCasting(target(me)) == $PartyResurrection \
+                                            or nowCasting(target(me)) == $Rebirth \
+                                            or nowCasting(target(me)) == $BrilliantPurge \
+                                            or nowCasting(target(me)) == $CrystalRegeneration \
+                                            or nowCasting(target(me)) == $CelestialAegis \
+                                            or nowCasting(target(me)) == $Polymorph \
+                                            or nowCasting(target(me)) == $QuickReturn \
+                                            or nowCasting(target(me)) == $BattleRhapsody \
+                                            or nowCasting(target(me)) == $AngelsResurrection \
+                                            or nowCasting(target(me)) == $AngelsTouch \
+                                            or nowCasting(target(me)) == $CrazyNocturne \
+                                            or nowCasting(target(me)) == $MindsEye \
+                                            or nowCasting(target(me)) == $FinalUltimateEvasion \
+                                            or nowCasting(target(me)) == $ArcaneBarrier \
+                                            or nowCasting(target(me)) == $GiantBarrier \
+                                            or nowCasting(target(me)) == $PowerRevival \
+                                            or nowCasting(target(me)) == $Berserker \
+                                            or nowCasting(target(me)) == $ShadowHide \
+                                            or nowCasting(target(me)) == $AngelOfDeath \
+                                            or nowCasting(target(me)) == $NoblesseBlessing \
+                                            or nowCasting(target(me)) == $FinalUltimateEscape \
+                                            or nowCasting(target(me)) == $FinalUltimateDefense \
+                                            or nowCasting(target(me)) == $ProtectionOfFaith \
+                                            or nowCasting(target(me)) == $PowerOfPaagrio \
+                                            or nowCasting(target(me)) == $HeroicMiracle \
+                                            or nowCasting(target(me)) == $HeroicBerserker \
+                                            or nowCasting(target(me)) == $NoblesseBlessing \
+                                            or nowCasting(target(me)) == $BlessedScrollOfResurrection \
+                                            or nowCasting(target(me)) == $SummonBarrier \
+
+// = = = = = = = = = = = = = = = = = = = DW = = = = = = = = = = = = = = = = = = = = 
+
+F: CantBurst = effectTime(target(me),$ElementalDestructionEarth2) == 0 and effectTime(target(me),$ElementalDestructionWater2) == 0 and effectTime(target(me),$ElementalDestructionFire2) == 0 and effectTime(target(me),$ElementalDestructionWind2) == 0 and effectTime(target(me),$ElementalDestruction4Attributes) == 0
+
+F: Snared = skillCoolTime($ShadowSnare) ~= 0
+
+>_F6 skillCoolTime($ShadowSnare) == 0 : CastGround $ShadowSnare \
+ xpos(target(me)) \
+ ypos(target(me)) \
+zpos(target(me))
+
+>_F6 effectTime(target(me),$ElementalDestructionEarth2) ~= 0 or effectTime(target(me),$ElementalDestructionWater2) ~= 0 or effectTime(target(me),$ElementalDestructionFire2) ~= 0 or effectTime(target(me),$ElementalDestructionWind2) ~= 0 or effectTime(target(me),$ElementalDestruction4Attributes) ~= 0 : Cast 11106
+
+>_F6 Snared and CantBurst and skillCoolTime(11048) == 0 : Cast 11048
+
+>_F6 Snared and CantBurst and skillCoolTime(11023) == 0 and isMBEyed: Cast 11023
+
+>_F6 Snared and CantBurst and skillCoolTime(11040) == 0 and skillCoolTime(11023) ~= 0 and isMBEyed: Cast 11040
+
+>_F6 Snared and CantBurst and skillCoolTime(11034) == 0 and skillCoolTime(11040) ~= 0 and skillCoolTime(11023) ~= 0 and isMBEyed: Cast 11034
+
+>_F6 Snared and CantBurst and skillCoolTime(11017) == 0 and skillCoolTime(11040) ~= 0 and skillCoolTime(11034) ~= 0 and skillCoolTime(11023) ~= 0 and isMBEyed: Cast 11017
+
+>_F6 Snared and CantBurst and skillCoolTime(11011) == 0 and skillCoolTime(11040) ~= 0 and skillCoolTime(11034) ~= 0 and skillCoolTime(11023) ~= 0 and skillCoolTime(11017) ~= 0 and isMBEyed: Cast 11011
+
+// = = = = = = = = = = = = = = = = = = = SINGLE AND MASS SKILLS = = = = = = = = = = = = = = = = = = = = 
+
+//>_F1 skillCoolTime($ShadowSnare) == 0 : CastGround $ShadowSnare \
+ xpos(target(me)) \
+ ypos(target(me)) \
+zpos(target(me))
+
+//>_F1 effectTime(target(me),$ElementalDestructionEarth2) ~= 0 or effectTime(target(me),$ElementalDestructionWater2) ~= 0 or effectTime(target(me),$ElementalDestructionFire2) ~= 0 or effectTime(target(me),$ElementalDestructionWind2) ~= 0 or effectTime(target(me),$ElementalDestruction4Attributes) ~= 0 : Cast 11106
+
+//>_F1 Snared and CantBurst and skillCoolTime(11048) == 0 and effectTime(target(me),11048) == 0 and not isMBEyed : Cast 11048
+
+//>_F1 Snared and CantBurst and skillCoolTime($ElementalDestruction) == 0 and isMBEyed: Cast $ElementalDestruction
+
+//>_F1 Snared and CantBurst and skillCoolTime(11040) == 0 and isMBEyed and isPSR : Cast 11040
+
+//>_F1 Snared and CantBurst and skillCoolTime(11034) == 0 and isMBEyed and isPSR and skillCoolTime($ElementalStorm2) ~= 0: Cast 11034
+
+//>_F1 Snared and CantBurst and skillCoolTime(11017) == 0 and isMBEyed and isPSR and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalBlast) ~= 0: Cast 11017
+
+//>_F1 Snared and CantBurst and skillCoolTime(11011) == 0 and isMBEyed and isPSR and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalBlast) ~= 0 and skillCoolTime($ElementalCrash) ~= 0: Cast 11011
+
+// = = = = = = = = = = = = = = = = = = = MASS PVP = = = = = = = = = = = = = = = = = = = = 
+
+//>_F4 skillCoolTime($ShadowSnare) == 0 : CastGround $ShadowSnare \
+ xpos(target(me)) \
+ ypos(target(me)) \
+zpos(target(me))
+
+//>_F4 effectTime(target(me),$ElementalDestructionEarth2) ~= 0 or effectTime(target(me),$ElementalDestructionWater2) ~= 0 or effectTime(target(me),$ElementalDestructionFire2) ~= 0 or effectTime(target(me),$ElementalDestructionWind2) ~= 0 or effectTime(target(me),$ElementalDestruction4Attributes) ~= 0 : Cast 11106
+
+//>_F4 Snared and CantBurst and skillCoolTime($ElementalDestruction) == 0 : Cast $ElementalDestruction
+
+//>_F4 Snared and CantBurst and skillCoolTime($ElementalStorm2) == 0 and skillCoolTime($ElementalDestruction) ~= 0 : Cast $ElementalStorm2
+
+//>_F4 Snared and CantBurst and skillCoolTime($ElementalBlast) == 0  and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalDestruction) ~= 0: Cast $ElementalBlast
+
+//>_F4 Snared and CantBurst and skillCoolTime($ElementalCrash) == 0  and skillCoolTime($ElementalBlast) ~= 0 and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalDestruction) ~= 0: Cast $ElementalCrash
+
+//>_F4 Snared and CantBurst and skillCoolTime($ElementalSpike) == 0  and skillCoolTime($ElementalCrash) ~= 0 and skillCoolTime($ElementalBlast) ~= 0 and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalDestruction) ~= 0: Cast $ElementalSpike
+ 
+// = = = = = = = = = = = = = = = = = = = Zombie = = = = = = = = = = = = = = = = = = = = 
+
+// = = = = = = = = = = = = = = = = = = = OLY CB = = = = = = = = = = = = = = = = = = = = 
+
+//>_F5 skillCoolTime($ShadowSnare) == 0 : CastGround $ShadowSnare \
+ xpos(target(me)) \
+ ypos(target(me)) \
+zpos(target(me))
+
+//>_F5 effectTime(target(me),$ElementalDestructionEarth2) ~= 0 or effectTime(target(me),$ElementalDestructionWater2) ~= 0 or effectTime(target(me),$ElementalDestructionFire2) ~= 0 or effectTime(target(me),$ElementalDestructionWind2) ~= 0 or effectTime(target(me),$ElementalDestruction4Attributes) ~= 0 : Cast 11106
+
+//>_F5 Snared and CantBurst and skillCoolTime($DeathBreath) == 0 : Cast $DeathBreath
+
+//>_F5 Snared and CantBurst and skillCoolTime($DevilsCurse) == 0 and skillCoolTime($DeathBreath) ~= 0 and effectTime(target(me),$DevilsCurse) == 0 and not isBEyed : Cast $DevilsCurse
+
+//>_F5 Snared and CantBurst and skillCoolTime($ElementalCrash) == 0 and skillCoolTime($DeathBreath) ~= 0 and isBEyed: Cast $ElementalCrash
+
+//>_F5 Snared and CantBurst and skillCoolTime($ElementalDestruction) == 0 and skillCoolTime($DeathBreath) ~= 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed: Cast $ElementalDestruction
+
+//>_F5 Snared and CantBurst and skillCoolTime($ElementalStorm2) == 0 and skillCoolTime($DeathBreath) ~= 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed and isPSR : Cast $ElementalStorm2
+
+//>_F5 Snared and CantBurst and skillCoolTime($ElementalBlast) == 0 and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($DeathBreath) ~= 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed and isPSR : Cast $ElementalBlast
+ 
+//>_F5 Snared and CantBurst and skillCoolTime($ElementalSpike) == 0 and skillCoolTime($ElementalBlast) ~= 0 and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($DeathBreath) ~= 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed and isPSR : Cast $ElementalSpike
+
+// = = = = = = = = = = = = = = = = = = = OLY CB against tank = = = = = = = = = = = = = = = = = = = = 
+
+//>_F3 skillCoolTime($ShadowSnare) == 0 : CastGround $ShadowSnare \
+ xpos(target(me)) \
+ ypos(target(me)) \
+zpos(target(me))
+
+//>_F3 effectTime(target(me),$ElementalDestructionEarth2) ~= 0 or effectTime(target(me),$ElementalDestructionWater2) ~= 0 or effectTime(target(me),$ElementalDestructionFire2) ~= 0 or effectTime(target(me),$ElementalDestructionWind2) ~= 0 or effectTime(target(me),$ElementalDestruction4Attributes) ~= 0 : Cast 11106
+
+//>_F3 Snared and CantBurst and skillCoolTime($DevilsCurse) == 0 and effectTime(target(me),$DevilsCurse) == 0 and not isBEyed : Cast $DevilsCurse
+
+//>_F3 Snared and CantBurst and skillCoolTime($ElementalCrash) == 0 and isBEyed: Cast $ElementalCrash
+
+//>_F3 Snared and CantBurst and skillCoolTime($ElementalDestruction) == 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed: Cast $ElementalDestruction
+
+//>_F3 Snared and CantBurst and skillCoolTime($ElementalStorm2) == 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed and isPSR : Cast $ElementalStorm2
+
+//>_F3 Snared and CantBurst and skillCoolTime($ElementalBlast) == 0 and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed and isPSR : Cast $ElementalBlast
+ 
+//>_F3 Snared and CantBurst and skillCoolTime($ElementalSpike) == 0 and skillCoolTime($ElementalBlast) ~= 0 and skillCoolTime($ElementalStorm2) ~= 0 and skillCoolTime($ElementalCrash) ~= 0 and isBEyed and isPSR : Cast $ElementalSpike
+
+S EnableGroup DaringOff off
+//?DaringOff  T(500,1500) EffectTime($DaringSonata) > 0 and alive(me): Dispel $DaringSonata
+//?DaringOff  T(500,1500) EffectTime(11601) > 0 and alive(me): Dispel 11601
+?DaringOff  T(500,1500) EffectTime(5987) > 0 and alive(me): Dispel 5987
+//?DaringOff  T(500,1500) EffectTime(11565) > 0 and alive(me): Dispel 11565
+//?DaringOff  T(500,1500) EffectTime(11824) > 0 and alive(me): Dispel 11824
+//?DaringOff  T(500,1500) EffectTime(11852) > 0 and alive(me): Dispel 11852
+?DaringOff  T(500,1500) EffectTime(1416) > 0 and alive(me): Dispel 1416
+?DaringOff T(500) : holdweapon on
+?DaringOff T(2000) alive(me)and effectTime(1935) == 0 : Cast 1935
+?DaringOff T(5000) alive(me)and effectTime(1986) == 0 : Cast 1986
+?DaringOff T(500) effectTime(11046) == 0 and skillCoolTime(11046) == 0 : Cast 11046
+?DaringOff T(500) effectTime(11068) == 0 and skillCoolTime(11068) == 0 : Cast 11068
+//?DaringOff T(500) effectTime(10757) == 0 and skillCoolTime(10757) == 0 : Cast 10757

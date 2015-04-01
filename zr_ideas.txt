@@ -1,0 +1,291 @@
+make config 
+
+tank use his premium powe to directly order to members when they can use AOE
+
+
+?premium CanUseAoe and isMember("abc") : OrderRaw abc "AoeEnabled=1;"
+also remake "pet" group in same way
+
+
+
+
+damage
+
+Синтаксис:
+
+    damage Возвращает количество повреждений нанесенных вашим персонажем.
+
+
+
+archer
+   ?Assist T(500) skillCoolTime($Prevision) ~= 0 and skillCoolTime($FinalUltimateEvasion) ~= 0 and php(me) < 45 : Cast $ConfusionDecoy
+     
+
+     
+    //Interrupts/Disables
+    ?Assist T(50) attackable(target(me)) & alive(target(me)) & nowCasting(target(me)) & skillCoolTime($ImpactShot) == 0  : Cast $ImpactShot
+    ?Assist T(50) attackable(target(me)) & alive(target(me)) & nowCasting(target(me)) & skillCoolTime($RecoilShot) == 0  : Cast $RecoilShot
+
+
+//just dps
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and php(target(me)) > 30 : Cast $Bullseye
+        //?Assist T(500) attackable(target(me)) and alive(target(me)) : ActionUse thundersharpclaw
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and skillCoolTime($PinpointShot) ~= 0 and effectLevel($SiegeFireStance) == 0 : Cast $SiegeFireStance
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and effectLevel($SiegeFireStance) ~= 0: Cast $MultipleArrow
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and effectLevel($SiegeFireStance) ~= 0: Cast $HeavyArrowRain
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and effectLevel($SniperStance) == 0 and skillCoolTime($PinpointShot) == 0 : Cast $SniperStance
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and effectLevel($SniperStance) ~= 0 and skillCoolTime($PinpointShot) == 0 : Cast $PinpointShot
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and php(target(me)) < 10 and skillCoolTime($TornadoShot) == 0 : Cast $TornadoShot
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and php(target(me)) < 10 and skillCoolTime($QuickShot) == 0 : Cast $QuickShot
+        ?Assist T(500) attackable(target(me)) and alive(target(me)) and php(target(me)) < 10 and skillCoolTime($ImpactShot) == 0 : Cast $ImpactShot
+
+
+//SS after Death
+V: FixSS
+L FixSS = 0
+ 
+?FixShots @Resurrection : FixSS = 1
+?FixShots T(2000) FixSS and alive(me) : FixSS = 0; AutoShot 17754 off; (500) AutoShot 17754 on
+
+// for dd
+
+ F BasicCondition = alive(me) and alive(target(me)) and \
+distance(me,target(me))<1200 and \
+not isPK(target(me)) and \
+not isflagged(target(me)) and \
+target(me)~=me and \
+target(me)~=0 and name(target(me))=="" and php(target(me))<100
+
+
+
+   //////============= BAZA ========================================возврат в точку
+    V: bx,by
+    S EnableGroup baza off
+    S GroupShow baza off
+    >+B Assign bx = xpos(me) ; Assign by = ypos(me) ;  Display 2 Baza tyt! ; EnableGroup baza
+    ?baza T(500,5000) not acting and zone ~= 12  and ((abs(abs(xpos(me)) - abs(bx)) )>50 or (abs(abs(ypos(me)) - abs(by))) > 50) : MoveTo (bx+random(-42, 43)) (by+random(-42, 43)) (zpos(me))
+
+
+
+    //orcs
+?heal T(1000) effectLevel($Savage) == 0 and skillCoolTime($Savage) == 0: Cast $Savage
+
+
+
+
+
+ 
+?Tanking PT(1000,3000) (effectTime(actor, $NobleSacrifice) ==0 \
+                and not issitting(me) \
+                and not dead(actor)) \
+                        and not effecttime($ProtectionOfFaith) \
+                        and not effecttime($CelestialPartyProtection) \
+                        and php(actor) < 65 \
+                        and isHealer(actor) : \
+                Select(actor) > Cast $NobleSacrifice
+ 
+
+
+
+ ?skills @Resurrection isMember(actor) or actor == (me) : (random(500, 1000)) Revive 1; AutoShot 17754 off ; AutoShot 17754 on 
+
+
+
+
+
+//******Interrupts/Disables********
+F: BadSkill = (skill == $DecayingDarkness or skill == $PriorState or skill == $GardenReflect or skill == $GardenerStrike)
+?Tanking @MagicSkillUser BadSkill and distance(actor) <= 400 and skillCoolTime($ShieldImpact ) == 0 : Select(actor) > Cast $ShieldImpact
+?Tanking @MagicSkillUser BadSkill and distance(actor) <= 400 and skillCoolTime($ChainStrike ) == 0 : Select(actor) > Cast $ChainStrike
+?Tanking @MagicSkillUser BadSkill and distance(actor) <= 400 and skillCoolTime($ShieldWave) == 0 : Cast $ShieldWave
+
+    F: Clones(act) = effectLevel(act, $BattleRhapsody)
+    ?Clones PT(500) zone ~= 12 and Clones(actor) : Cast $CloneAttack
+
+
+
+    //shots
+F: mystSPS = itemCount(3952) == 0 and itemCount(22252) > 1
+?shots @CharInfo actor == me and dead(me) and zone ~= 12 and mystSPS : AutoShot 22252 off
+?shots @CharInfo actor == me and alive(me) and zone ~= 12 and mystSPS : (1500) AutoShot 22252 on
+?shots T(2000) zone ~= 12 and alive(me) and mystSPS  : AutoShot 22252 on
+ 
+///Arcane Power
+ 
+?AP T(1000) inFight(me) and effectLevel($ArcanePower) == 0 : Cast $ArcanePower
+?AP T(1000) not inFight(me) and effectLevel($ArcanePower) > 0 : Cast $ArcanePower
+S EnableGroup AP off
+
+
+
+
+//***AntiGM***
+S EnableGroup AntiGM off
+L EnableGroup AntiGM off
+V: xPosCheck, yPosCheck, zPosCheck
+?AntiGM T(1000) alive(me) : {Assign xPosCheck = xpos(me) ; Assign yPosCheck = ypos(me) ; Assign zPosCheck = zpos(me)}
+?AntiGM T(500) abs(xpos(me) - xposCheck) > 3000 or abs(ypos(me) - yposCheck) > 3000 or abs(zpos(me) - zposCheck) > 3000 : Display 0("Char Warp detected") ; EnableGroup AllOff on 
+
+
+
+F: RechargePercent(TA) = isWizard(TA) and pmp(me) > 60 and 50 or \
+                         isWizard(TA) and pmp(me) > 30 and 40 or \
+                         isDagger(TA) and pmp(me) > 50 and 40 or \
+                         30
+
+
+
+
+//can be a good idea 
+
+S EnableGroup reznoble off
+?reznoble @MagicSkillUser(me) and skill == 1016 or skill == 1254 : EnableGroup noble on ;(8000) EnableGroup noble off
+?reznoble @MagicSkillUser("Evey") and skill == 1016 or skill == 11785 : EnableGroup noble on ;(8000) EnableGroup noble off
+?reznoble T(1000) zone==12 : EnableGroup nobless off  //peace zone
+
+
+///orbis debuff///
+L GroupShow P off
+S GroupShow P off
+?P T(100, 2000) skillCoolTime(14528) == 0 and alive(me) and (effectTime(14196) or effectTime(14498) or effectTime(14499)) : Selectself > Cast 14528
+
+
+
+ 
+ 
+S EnableGroup Protect off
+ 
+?Protect @TargetSelected npc(actor) and (name(target(actor)) == "ProZeusx" or
+name(target(actor)) == "XtraK") and skillCoolTime($SuperiorHate) == 0 and
+npc(target(me)) and distance(target(me)) < 2000 and zone ~= 12 : Select (actor)
+> Cast $SuperiorHate
+ 
+?Protect @TargetSelected npc(actor) and (name(target(actor)) == "ProZeusx" or
+name(target(actor)) == "XtraK") and skillCoolTime($ChainStrike) == 0 and
+npc(target(me)) and distance(target(me)) < 2000 and zone ~= 12 : Select (actor)
+> Cast $ChainStrike
+ 
+
+
+    //***Expometer***
+    S EnableGroup AXP off
+    V: AXP, ASP, ANOW
+    ?AXP @GroupSwitch Group == "AXP" : {Assign AXP = exp ; Assign ASP = sp ; Assign ANOW = now}
+    ?AXP T(5000,5000) now - lastExpAddTime < 5000 : Display 1 ("XP:"..(exp - env("AXP"))*3600/(now - env("ANOW")).." k/h ("..(now - env("ANOW"))/60000.." min)")
+     
+
+  L AutoPartyInterval (random(500,2000))
+
+
+
+
+//---------------HP---------------
+ 
+?Pots T(1000)   alive(me) \
+                        and itemCount(30357) ~= 0 \
+                        and php(me) < 60 \
+                        and not skillCoolTime(30357) \
+                        : UseItem 30357
+ 
+?Pots T(400)    alive(me) \
+                        and itemCount(35930) ~= 0 \
+                        and php(me) < 77 \
+                        and not skillCoolTime(35930) \
+                        : UseItem 35930
+ 
+?Pots T(400)    alive(me) \
+                        and itemCount(35743) ~= 0 \
+                        and php(me) < 90 \
+                        and not skillCoolTime(35743) \
+                        : UseItem 35743
+ 
+?Pots T(350)    alive(me) \
+                        and itemCount(1540) ~= 0 \
+                        and php(me) < 77 \
+                        and not skillCoolTime(1540) \
+                        : UseItem 1540
+ 
+?Pots T(350)    alive(me) \
+                        and itemCount(9207) ~= 0 \
+                        and php(me) < 77 \
+                        and not skillCoolTime(9207) \
+                        : UseItem 9207
+ 
+?Pots T(550)    alive(me) \
+                        and itemCount(21040) ~= 0 \
+                        and php(me) < 77 \
+                        and not skillCoolTime(21040) \
+                        : UseItem 21040
+ 
+?Pots T(550)    alive(me) \
+                        and itemCount(14701) ~= 0 \
+                        and php(me) < 80 \
+                        and not skillCoolTime(14701) \
+                        : UseItem 14701
+ 
+?Pots T(350)    alive(me) \
+                        and itemCount(13750) ~= 0 \
+                        and php(me) < 77 \
+                        and not skillCoolTime(13750) \
+                        : UseItem 13750
+ 
+//---------------MP---------------
+ 
+?Pots T(350)    alive(me) \
+                        and itemCount(35744) ~= 0 \
+                        and pmp(me) < 20 \
+                        and not skillCoolTime(35744) \
+                        : UseItem 35744
+ 
+?Pots T(1000)   alive(me) \
+                        and itemCount(30358) ~= 0 \
+                        and pmp(me) < 60 \
+                        and not skillCoolTime(30358) \
+                        : UseItem 30358
+ 
+//---------------CP---------------
+ 
+?Pots T(400)    alive(me) \
+                        and itemCount(35743) ~= 0 \
+                        and pcp(me) < 50 \
+                        and not skillCoolTime(35743) \
+                        : UseItem 35743
+ 
+?Pots T(400)    alive(me) \
+                        and itemCount(5591) ~= 0 \
+                        and pcp(me) < 95 \
+                        and not skillCoolTime(5591) \
+                        : UseItem 5591
+ 
+?Pots T(400)    alive(me) \
+                        and itemCount(5592) ~= 0 \
+                        and pcp(me) < 95 \
+                        and not skillCoolTime(5592) \
+                        : UseItem 5592
+ 
+?Pots T(500)    alive(me) \
+                        and itemCount(30359) ~= 0 \
+                        and pcp(me) < 20 \
+                        and not skillCoolTime(30359) \
+                        : UseItem 30359
+ 
+?Pots T(500)    alive(me) \
+                        and itemCount(10166) ~= 0 \
+                        and pcp(me) < 20 \
+                        and php(me) < 70 \
+                        and not skillCoolTime(10166) \
+                        : UseItem 10166
+ 
+
+
+
+
+//***AntiGM***
+S EnableGroup AntiGM off
+L EnableGroup AntiGM off
+V: xPosCheck, yPosCheck, zPosCheck
+?AntiGM T(1000) alive(me) : {Assign xPosCheck = xpos(me) ; Assign yPosCheck = ypos(me) ; Assign zPosCheck = zpos(me)}
+?AntiGM T(500) abs(xpos(me) - xposCheck) > 3000 or abs(ypos(me) - yposCheck) > 3000 or abs(zpos(me) - zposCheck) > 3000 : Display 0("Char Warp detected") ; EnableGroup AllOff on
+ 
+
+ 

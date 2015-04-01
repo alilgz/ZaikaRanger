@@ -1,0 +1,170 @@
+
+////////////////
+///  UNICONF ///
+////////////////
+
+//classes check
+//todo: put to functins.dat
+F: _isHealer(actor) = (class(actor) == 16 or class(actor) == 97 or class(actor) == 30 or class (actor) == 105 or class(actor) == 17 or class (actor) == 98 or class(actor) == 43 or class (actor) == 112 )
+ 
+F: _isDagger(actor) = ( class(actor) == 8 or class(actor) == 93 or  class(actor) == 23 or class(actor) == 101 or class(actor) == 36 or class(actor) == 108  )
+
+F: _isSpoiler(actor) = ( class(actor) == 55)
+
+F: _isBDSWS(actor) = ( class(actor) == 34 or class(actor) == 107 or class(actor) == 21 or class(actor) == 100)
+ 
+F: _isSummoner(actor) = ( class(actor) == 14 or class(actor) == 28 or class(actor) == 41 or class(actor) == 96 or class(actor) == 104 or class(actor) == 111 )
+
+F: _isTank(actor) = ( class(actor) == 5 or class(actor) == 6 or class(actor) == 20 or class(actor) == 33 or class(actor) == 90 or class(actor) == 91 or class(actor) == 99 or class(actor) == 106)
+ 
+ 
+/////////////////////////// UNICONF //////////////////////////
+ 
+S TimerDispersion 15
+ 
+S Enablegroup MA off
+S Enablegroup xAssist off
+S Enablegroup SelfHeal off
+S Enablegroup xHeal off
+S Enablegroup Skills off
+S Enablegroup Pet off
+S Enablegroup drop off
+ 
+S GroupShow MA off
+S GroupShow xAssist off
+S GroupShow SelfHeal off
+S GroupShow xHeal off
+S GroupShow Skills off
+S GroupShow Pet off
+S GroupShow drop off
+S GroupShow Check off
+ 
+V: cheking
+L cheking=1
+ 
+//module check
+?Check T(500) _isTank(me) or _isBDSWS(me) : GroupShow MA on
+?Check T(500) _isDagger(me) or _isSummoner(me) or _isSpoiler(me): GroupShow xAssist on
+?Check T(500) _isHealer(me) or _isTank(me) or _isBDSWS(me)  or _isSpoiler(me) or _isDagger(me) or _isSummoner(me) : GroupShow SelfHeal on
+?Check T(500) _isHealer(me) or _isTank(me) or _isBDSWS(me)  or _isSpoiler(me) or _isDagger(me) or _isSummoner(me) : GroupShow drop on
+?Check T(500) _isHealer(me) : GroupShow xHeal on
+?Check T(500) _isTank(me) or _isBDSWS(me) or _isSpoiler(me) or _isDagger(me) or _isSummoner(me) : GroupShow Skills on
+?Check T(500) _isSummoner(me) : GroupShow Pet on
+
+?Check T(5000) (10000)EnableGroup Check off;
+//press Ctrl+X to re-check groups  
++X EnableGroup Check on;
+ 
+F: SafeToAttack(someone) = npc(someone) and alive(someone) and distance(someone)<1500
+
+F: ShouldCast(skill) = alive(me) and (skillLevel(skill) > 0  and (mp(me) >= 100)  and not (acting or nowCasting or isSilenced(me))  and SkillCoolTime(skill) ==0)
+///and skilllevel(619)==0)   <-- transformed
+ 
+ 
+// self defense skills use: ue, ud, selfheal, etc
+F: HealMeSkill1 = ((_isDagger(me) and $UltimateEvasion)  or (_isTank(me) and 984) or (_isBDSWS(me) and $UltimateDefense) )
+
+// todo: Add healer skills for non-healer classses
+F: HealMemberSkill1 =  $MajorHeal
+F: HealMemberSkill2 =  $GreaterHeal
+F: HealMemberSkill3 =  $GreaterBattleHeal
+F: ResSkill1        =  $Resurrection
+ 
+ // Add correct skills for summoners
+F: SkillAttack1 = (_isSpoiler(me) and $FatalStrike) or (_isSummoner(me) and 1175)  or (_isTank(me) and $ShieldStrike)
+F: SkillDebuff1 = (_isSpoiler(me) and $CrushingStrike) or (_isSummoner(me) and 1175)  or (_isTank(me) and $Aggression)
+ 
+/////////////////////////////////////////////
+///////////////// GROUPS ////////////////////
+/////////////////////////////////////////////
+
+///////////
+//xAssist// : General Assist -> select target if not same as "ma" 
+///////////
+ 
+?xAssist T(250) target(me) ~= target(env("ma")) and not dead(target(env("ma"))) and distance(target(env("ma")))<1400 : (500)Assist(env("ma"))
+ 
+>+A Assign ma = target(me) ; Display 0 ("MainAssist by "..name(target(me)))
+
+//if you say "assist him" -> all assit to your target(it must be party member)
+@CreatureSay (actor == me or isMember(actor) ) and isMember(target(actor)) and text == "assist him": Assign ma = target(actor); Display 0 ("MainAssist by "..name(target(actor)))
+
+//if you say "assist me" -> all assit to you
+@CreatureSay (actor == me or isMember(actor) ) and  text == "assist me": Assign ma = actor; Display 0 ("MainAssist by "..name(actor))
+ 
+ 
+////////////
+//SelfHeal// : Utility groups: follow, pickup, res accept
+////////////
+// 3 gradation of follow
+V: FollowStartRange 
+V: FollowRange1 
+V: FollowRange2
+S Assing FollowStartRange = 200
+S Assing FollowRange1 = 100
+S Assing FollowRange2 = 135
+
+//Shift +1, 2, 3
+>^1 : Assign FollowRange1=20; Assign FollowRange2=35; Assign FollowStartRange=40; Display 0 "Follow distantce : minimal"
+>^2 : Assign FollowRange1=100; FollowRange2=135; Assign FollowStartRange=200; Display 0 "Follow distantce : small"
+>^3 : Assign FollowRange1=250; FollowRange2=300; Assign FollowStartRange=450; Display 0 "Follow distantce : normal"
+
+?SelfHeal T(2000) distance(env("ma")) > FollowStartRange : Come(env("ma"))  FollowRange1 FollowRange2
+
+?SelfHeal @Resurrection actor==me or isMember(actor) : (1000) Revive 1
+
+//pickup: F1
+?SelfHeal  T(250) (dead(target(me)) or target(me)==0 or ismember(target(me))) and not acting and GroupStatus("drop"): PressKey F1
+ 
+//////////
+///drop///
+//////////
+?drop T(99999):Nop
+ 
+ 
+/////////
+///Pet/// : pet summon, attack, protect
+/////////
+ //F: PetSummonSkill = $SummonMewTheCat
+?Pet T(250) target(me) ~= target(env("ma")) and not dead(target(env("ma"))) and distance(target(env("ma")))<1400 : (500)Assist(env("ma"))  safe > ActionUse summonattack
+//?Pet T(1000) pet(me) ==0 : Cast PetSummonSkill
+
+//////////
+//Skills// : general skill use
+//////////
+?Skills T(500,2000) SafeToAttack(target(me)) and   ShouldCast(SkillAttack1)  : Cast SkillAttack1 ; Attack
+?Skills T(500,3000) SafeToAttack(target(me)) and   ShouldCast(SkillDebuff1)  : Cast SkillDebuff1
+?Skills T(200) SafeToAttack(target(me)) : Attack
+ 
+ 
+ 
+/////////////
+/////heal//// : any class have heal/defense skills, and also healers can heal on others
+/////////////
+>+A Assign ma = target(me) ; Display 0 ("MainAssist by "..name(target(me)))
+@CreatureSay (actor == me or isMember(actor) ) and isMember(target(actor)) and text == "heal me": Assign ma = target(actor); Display 0 ("MainAssist by "..name(target(actor)))
+ 
+//use, ud, etc etc
+//?heal T(300) php(me)<50 and ShouldCast(HealMeSkill): Cast HealMeSkill
+//heal members
+?xHeal PT(300) php(actor)<40 and ShouldCast(HealMemberSkill3): Select(actor) safe > Cast HealmemberSkill3
+?xHeal PT(300) php(actor)<50 and ShouldCast(HealMemberSkill1): Select(actor) safe > Cast HealmemberSkill1
+?xHeal PT(300) php(actor)<70 and ShouldCast(HealMemberSkill2): Select(actor) safe > Cast HealMemberSkill2
+?xHeal P(500) dead(actor) and ShouldCast(ResSkill1): Select(actor) safe >  Cast ResSkill1
+ 
+ 
+ 
+/////////////
+/////ma////// : target selecting: location, mobs priority, healer protect
+/////////////
+ 
++B RoundRange 0 (xpos(me)) (ypos(me)) (env("meRadius")) ; assign xcoord=xpos(me);assign ycoord=ypos(me);
+L Assign meRadius = 3000
+ 
+L MobFunctor 1 (distance)
+L MobFunctor 0 (not dead and attackable and inRange(0, actor) and abs(zdiff) < 400)
+ 
+?MA T(500, 500) mobsFind(0) and \
+   (target(me) == 0 or not alive(target(me)) or npc(target(me)) == 0): \
+     Come(mobsFind(0, 1)) 60 120 > PressKey F3
+//Select(mobsFind(0, 1))

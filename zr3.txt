@@ -1,0 +1,112 @@
+
+
+
+    //bind tokens by numpad token1 - num0, .., token4 - num3
+    V token1,token2,token3,token4
+    V token1_status,token2_status,token3_status, token4_status
+    V t1_d,t2_d,t3_d,t4_d,t1_rez,t2_rez,t3_rez,t4_rez, rezzed
+    >_~0 : ActionUse usetoken1;token1=target(me); \
+    token1_status = "STAR  ="..classNick(class(target(me))).."= "..name(target(me))
+    >_~1 : ActionUse usetoken2;token2=target(me); \
+    token2_status = "HEART ="..classNick(class(target(me))).."= "..name(target(me))
+    >_~2 : ActionUse usetoken3;token3=target(me); \
+    token3_status = "MOON  ="..classNick(class(target(me))).."= "..name(target(me))
+    >_~3 : ActionUse usetoken4;token4=target(me); \
+    token4_status = "CREST ="..classNick(class(target(me))).."= "..name(target(me))
+    //token's status - resurrect
+    @SkillDone (victim ==token1 or victim ==token2 or victim ==token3 or victim ==token4) and \
+               (skill==11564 or skill==11784 or skill==2049) : rezzed = victim
+    //status of tokens - dead/alive/resurrected
+    T(1000) token1~=0 : If (dead(token1)) t1_d = " DEAD" : t1_d = " ALIVE"; t1_rez=""
+    T(1000) token2~=0 : If (dead(token2)) t2_d = " DEAD" : t2_d = " ALIVE"; t2_rez=""
+    T(1000) token3~=0 : If (dead(token3)) t3_d = " DEAD" : t3_d = " ALIVE"; t3_rez=""
+    T(1000) token4~=0 : If (dead(token4)) t4_d = " DEAD" : t4_d = " ALIVE"; t4_rez=""
+    T(1000) rezzed==token1 : t1_rez="REZ"
+    T(1000) rezzed==token2 : t2_rez="REZ"
+    T(1000) rezzed==token3 : t3_rez="REZ"
+    T(1000) rezzed==token4 : t4_rez="REZ"
+    T(1000) eval(token1_status..t1_d..t1_rez.."<br>".. \
+                 token2_status..t2_d..t2_rez.."<br>".. \
+                 token3_status..t3_d..t3_rez.."<br>".. \
+                 token4_status..t4_d..t4_rez.."<br>")
+    //mark my target when new target selected (using token1)
+    @TargetSelected actor==me and isMember(target(actor))==0 and \
+                    target(actor)~=token1 and target(actor)~=token2 and \
+                    target(actor)~=token3 and target(actor)~=token4 \
+                    : ActionUse usetoken1;token1=target(me); \
+                    token1_status = "STAR  ="..classNick(class(target(me))).."= "..name(target(me))
+    //Return target after tank's agression
+    V hate
+    T(1000) effecttime($SuperiorHateAura)>0 or effecttime($SuperiorHate)>0 : hate = 1; EnableGroup Single off
+    T(500) hate == 1 : select (lastvictim(me)) safe > hate = 0
+    // display message about enemy's buffs
+    F SkillWarn(skill) =  (skill==$CelestialProtection) or (skill==$CelestialAegis) or \
+                          (skill==$CelestialPartyProtection) or (skill==$TornadoShot) or\
+                          (skill==$RecoilShot) //or (skill==$QuickShot)
+
+
+///// my cool script here
+
+//1. хоткеи для раздачи токенов на цели
+//2. хоткей для выделеия следующего живого токена, в определенном порядке
+//3. при касте реса и\или приеме - выдача сообщения что такой-то токен реснут
+//4. явное сообщение о немозможности сменить таргет при хейте от танка
+//5. восстановление таргета после хейта от танка
+//6. сообщения о целестиале\рапсе\пати уд на таргете
+
+// function 1 : put tokens via hotkeys (1--4)
+    V token1,token2,token3,token4
+    V token1_status,token2_status,token3_status, token4_status
+>_~1 : ActionUse usetoken1;token1=target(me); \
+token1_status = "STAR  ="..classNick(class(target(me))).."= "..name(target(me))
+>_~2 : ActionUse usetoken2;token2=target(me); \
+token2_status = "HEART ="..classNick(class(target(me))).."= "..name(target(me))
+>_~3 : ActionUse usetoken3;token3=target(me); \
+token3_status = "MOON  ="..classNick(class(target(me))).."= "..name(target(me))
+>_~4 : ActionUse usetoken4;token4=target(me); \
+token4_status = "CREST ="..classNick(class(target(me))).."= "..name(target(me))
+
+//// FUNCTION 2: select next alive char marked by token, hotkey Numpad0
+F: CheckToken(t) = t and alive(t) and target(me)~=t
+F: NextToken =  CheckToken(token1) and token1 or \
+				CheckToken(token2) and token2 or \
+				CheckToken(token3) and token3 or \
+				CheckToken(token4) and token4 
+// hm, looks very simple o_O
+>~0  NextToken  and not ( effectLevel($SuperiorAggressionAura) or  effectLevel($SuperiorAggression)) : Select NextToken safe
+//function 3: ???? 
+@SkillDone (victim ==token1 or victim ==token2 or victim ==token3 or victim ==token4) and \
+               (skill==11564 or skill==11784 or skill==2049) : rezzed = victim ; Display 0 "Token ressed"
+    
+
+// function 4
+>~0  NextToken and ( effectLevel($SuperiorAggressionAura) or  effectLevel($SuperiorAggression)) : Display 0 ("Hate effect, can't target ")
+
+
+//function 5
+V hate
+T(1000) effecttime($SuperiorHateAura)>0 or effecttime($SuperiorHate)>0 : hate = 1; EnableGroup Single off
+T(500) hate == 1 : select (lastvictim(me)) safe > hate = 0
+
+
+//for MA: put star on fresh target, show info 
+@TargetSelected actor==me and isMember(target(actor))==0 and \
+                    target(actor)~=token1 and target(actor)~=token2 and \
+                    target(actor)~=token3 and target(actor)~=token4 \
+                    : ActionUse usetoken1;token1=target(me); \
+                    token1_status = "STAR  ="..classNick(class(target(me))).."= "..name(target(me)); 
+
+// for assisters                    
+@TargetSelected actor==me and isMember(target(actor))==0 : Display 0 (fullInfo(target(me)))
+
+F: fullInfo(a) =  (pCel(a).. pUD(a) .. pMaSt(a) .. pHeSt(a) )
+    
+F: pCel(a) = effectLevel($CelestialPartyProtection)  and " Party Celestial"
+F: pUD(a) = effectLevel($PartyUltimateDefence)  and " Party UD"
+F: pMaSt(a) = effectLevel($CrystalForm)  and " CrystalForm"
+F: pHeSt(a) = effectLevel($Crystalregeneration)  and " TurnToStone"
+
+
+
+
+
